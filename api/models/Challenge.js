@@ -49,6 +49,11 @@ module.exports = (sequelize, DataTypes) => {
     Challenge.belongsToMany(models.User, {
         through: 'userchallenge',
     })
+
+    Challenge.hasOne(models.Charity, {
+        through: 'challengecharity',
+        onDelete: 'CASCADE'
+    })
   };
 
   return Challenge;
