@@ -25,15 +25,15 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TIME,
         allowNull: false,
         validate: {
-          startDateAfterEndDate() {
-            if (this.start_time.isAfter(this.end_time)) {
+          startTimeAfterEndTime(time) {
+            if (this.start_time.isAfter(time)) {
               throw new Error('Start time must be before the end time.');
             }
           }
         }
       },
       date: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
         validate: {
           isDate: true,
@@ -51,7 +51,8 @@ module.exports = (sequelize, DataTypes) => {
     ActivityLog.belongsTo(models.User, {
         foreignKey: {
             allowNull: false
-        }
+        }, 
+        onDelete: 'CASCADE',
     })
   };
 

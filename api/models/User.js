@@ -41,7 +41,11 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = (models) => {
     // associations can be defined here
     User.hasMany(models.ActivityLog, {
-      onDelete: "cascade"
+      onDelete: 'CASCADE'
+    })
+
+    User.belongsToMany(models.Challenge, {
+      through: 'userchallenge',
     })
   };
 
