@@ -1,6 +1,20 @@
 const { Model } = require("sequelize");
 const bcrypt = require("bcryptjs");
 
+/**
+ * A model to store all registered users on the app.
+ * 
+ * It has the following custom fields:
+ * 1. firstName (STRING): The user's first name
+ * 2. lastName (STRING): The user's last name
+ * 3. email (STRING): The user's email address
+ * 4. passwordHash (STRING): The user's password as a hash value
+ * 
+ * It also has the following automatically generated fields:
+ * 1. id (INTEGER): Unique identifier for each record (auto-incremented)
+ * 2. created_at (TIME): Timestamp of the time the record was created
+ * 3. updated_at (TIME): Timestamp of the time the record was updated
+ */
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     getFullname() {
@@ -39,11 +53,12 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   User.associate = (models) => {
-    // associations can be defined here
+    // Each user in the User table has many activity logs in the ActivityLog table.
     User.hasMany(models.ActivityLog, {
       onDelete: 'CASCADE'
     })
 
+    // Each user in the User table is a participant in many challenges from the Challenge table.
     User.belongsToMany(models.Challenge, {
       through: 'userchallenge',
     })
