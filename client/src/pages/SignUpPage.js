@@ -109,7 +109,7 @@ function SignUpPage() {
                                     />
                                     <br></br>
                                     <button type="submit" className="btn btn-dark ml-auto w-100">
-                                        Login
+                                        Sign Up
                                     </button>
                                 </div>
                             </form>
