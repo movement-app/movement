@@ -4,6 +4,7 @@ import PostsListPage from "./pages/PostsListPage";
 import PostFormPage from "./pages/PostFormPage";
 import ShowPostPage from "./pages/ShowPostPage";
 import AboutUsPage from "./pages/AboutUsPage";
+import RunTrackerPage from "./pages/RunTrackerPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage"
 import { AuthProvider } from "./context/AuthContext";
@@ -28,6 +29,11 @@ function Navigation(props) {
           <li className="nav-item">
             <NavLink className="nav-link" to="/homepage">
               Homepage
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/RunTrackerPage">
+              My Runs
             </NavLink>
           </li>
           <li className="nav-item">
@@ -65,6 +71,7 @@ function App() {
               <Route path="/posts/:id" element={<ShowPostPage />} />
               <Route path="/homepage" element={<HomePage />} />
               <Route path="/about-us" element={<AboutUsPage />} />
+              <Route path="/RunTrackerPage" element={<RunTrackerPage />} />
               <Route path="/" element={<PostsListPage />} />
             </Routes>
           </div>
