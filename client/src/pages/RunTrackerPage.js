@@ -3,7 +3,6 @@ import { useState } from 'react';
 
 function RunTrackerPage(props) {
 
-
 	const [run, setRun] = useState([]);
 	const [totalRun, setTotalRun] = useState(0)
 
