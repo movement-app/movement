@@ -7,6 +7,7 @@ import AboutUsPage from "./pages/AboutUsPage";
 import RunTrackerPage from "./pages/RunTrackerPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage"
+import SignUpPage from "./pages/SignUpPage"
 import { AuthProvider } from "./context/AuthContext";
 import AuthButton from "./components/AuthButton";
 
@@ -41,9 +42,15 @@ function Navigation(props) {
               About Us
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/sign-up">
+              Join
+            </NavLink>
+          </li>
         </ul>
       </div>
       <div className="rightNav">
+
       <AuthButton />
       </div>
     </nav>
@@ -73,6 +80,8 @@ function App() {
               <Route path="/about-us" element={<AboutUsPage />} />
               <Route path="/RunTrackerPage" element={<RunTrackerPage />} />
               <Route path="/" element={<PostsListPage />} />
+              <Route path="/sign-up" element={<SignUpPage />} />
+
             </Routes>
           </div>
         </div>
