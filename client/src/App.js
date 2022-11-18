@@ -5,6 +5,7 @@ import PostFormPage from "./pages/PostFormPage";
 import ShowPostPage from "./pages/ShowPostPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage"
 import { AuthProvider } from "./context/AuthContext";
 import AuthButton from "./components/AuthButton";
 
@@ -13,15 +14,20 @@ import PrivateRouteRequiresAuth from "./components/PrivateRouteRequiresAuth";
 
 function Navigation(props) {
   return (
-    <nav className="navbar navbar-expand-sm navbar-dark bg-dark shadow mb-3">
+    <nav className="navbar navbar-expand-sm navbar-light mr-5 mb-4">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-          Micro Blog
+          movement
         </Link>
         <ul className="navbar-nav me-auto">
           <li className="nav-item">
             <NavLink className="nav-link" to="/posts/new">
-              Create a Micro Post
+              Login
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/homepage">
+              Homepage
             </NavLink>
           </li>
           <li className="nav-item">
@@ -31,7 +37,9 @@ function Navigation(props) {
           </li>
         </ul>
       </div>
+      <div className="rightNav">
       <AuthButton />
+      </div>
     </nav>
   );
 }
@@ -55,6 +63,7 @@ function App() {
                 }
               />
               <Route path="/posts/:id" element={<ShowPostPage />} />
+              <Route path="/homepage" element={<HomePage />} />
               <Route path="/about-us" element={<AboutUsPage />} />
               <Route path="/" element={<PostsListPage />} />
             </Routes>

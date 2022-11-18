@@ -1,1 +1,31 @@
 /* Add custom CSS here */
+@import url('https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;700&display=swap');
+
+.navbar-brand {
+    font-family: 'Arimo', sans-serif;
+    font-weight: 700;
+}
+.container-hp h1{
+    font-size: 70px;
+}
+.container-hp h3{
+    font-size: 50px;
+}
+.rightNav {
+    margin-right: 15px;
+}
+.mainrunners {
+    padding-bottom: 3%;
+}
+.blurbs {
+    text-align: left;
+    padding-top: 15%;
+}
+.blurbs p {
+    font-size: 18px;
+}
+.loginForm {
+    padding-top: 15%;
+    text-align: left;
+    margin: 10%;
+}

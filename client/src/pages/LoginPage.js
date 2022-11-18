@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import runnersgraphic from "./images/rungraphic.png";
 
 function LoginPage() {
   const auth = useAuth();
@@ -49,10 +50,19 @@ function LoginPage() {
   }
 
   return (
-    <div className="col-10 col-md-8 col-lg-7">
+    <div className="container">
+  <div className="row">
+    <div className="col">
+      <img className="img-fluid" src={runnersgraphic} alt="runners graphic"></img>
+    </div>
+    <div className="col">
+    <div className="loginForm">
+      <h3>Login to your Account</h3>
+      <br></br>
       <form onSubmit={login}>
         <div className="form-row">
           {errorMessage}
+          <label>Email</label>
           <input
             type="email"
             className="form-control"
@@ -61,6 +71,8 @@ function LoginPage() {
             value={data.email}
             onChange={fieldChanged("email")}
           />
+          <br></br>
+          <label>Password</label>
           <input
             type="password"
             className="form-control"
@@ -69,12 +81,16 @@ function LoginPage() {
             value={data.password}
             onChange={fieldChanged("password")}
           />
-          <button type="submit" className="btn btn-primary ml-auto">
+          <br></br>
+          <button type="submit" className="btn btn-dark ml-auto w-100">
             Login
           </button>
         </div>
       </form>
     </div>
+    </div>
+  </div></div>
+    
   );
 }
 
