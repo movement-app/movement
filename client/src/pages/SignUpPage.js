@@ -7,7 +7,7 @@ function SignUpPage() {
     const auth = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    const [data, setData] = useState({ firstname: "", lastname: "", email: "", password: "" });
+    const [data, setData] = useState({ firstName: "", lastName: "", email: "", password: "" });
     const [error, setError] = useState(false);
 
     const from = location.state?.from?.pathname || "/";
@@ -21,10 +21,10 @@ function SignUpPage() {
 
     const signup = async (e) => {
         e.preventDefault();
-        let { firstname, lastname, email, password } = data;
+        let { firstName, lastName, email, password } = data;
 
         try {
-            await auth.authenticate(firstname, lastname, email, password);
+            await auth.signup(firstName, lastName, email, password);
             // setRedirectToReferrer(true); // used in react-router v5
             // in react-router v6 navigate changes the pages directly.
             // comment from official docs example:
@@ -44,7 +44,7 @@ function SignUpPage() {
     if (error) {
         errorMessage = (
             <div className="alert alert-danger" role="alert">
-                Login Failed
+                Signup Failed
             </div>
         );
     }
@@ -71,8 +71,8 @@ function SignUpPage() {
                                                 className="form-control"
                                                 name="firstName"
                                                 placeholder="First Name"
-                                                value={data.firstname}
-                                                onChange={fieldChanged("firstname")}
+                                                value={data.firstName}
+                                                onChange={fieldChanged("firstName")}
                                             />
                                         </div>
                                         <div className="col">
@@ -82,8 +82,8 @@ function SignUpPage() {
                                                 className="form-control"
                                                 name="lastName"
                                                 placeholder="Last Name"
-                                                value={data.lastname}
-                                                onChange={fieldChanged("lastname")}
+                                                value={data.lastName}
+                                                onChange={fieldChanged("lastName")}
                                             />
                                         </div>
                                     </div>
