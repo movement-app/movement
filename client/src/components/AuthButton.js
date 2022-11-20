@@ -20,7 +20,7 @@ const AuthButton = () => {
 
   return (
     <div className="text-white">
-      Welcome! {auth.user.firstName}
+      {/* Welcome! {auth.user.firstName} */}
       <button className="btn btn-dark" onClick={logout}>
         Logout
       </button>
