@@ -78,7 +78,12 @@ function App() {
               <Route path="/posts/:id" element={<ShowPostPage />} />
               <Route path="/homepage" element={<HomePage />} />
               <Route path="/about-us" element={<AboutUsPage />} />
-              <Route path="/RunTrackerPage" element={<RunTrackerPage />} />
+              <Route path="/RunTrackerPage" element={
+                  <PrivateRouteRequiresAuth>
+                    <RunTrackerPage />
+                  </PrivateRouteRequiresAuth>
+                } 
+              />
               <Route path="/" element={<PostsListPage />} />
               <Route path="/sign-up" element={<SignUpPage />} />
 

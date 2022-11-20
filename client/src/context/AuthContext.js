@@ -48,6 +48,24 @@ const AuthProvider = ({ children }) => {
     return loggedInUser;
   };
 
+  const signup = async (firstName, lastName, email, password) => {
+    let response = await fetch("/api/auth/signup", {
+      method: "POST",
+      body: JSON.stringify({firstName, lastName, email, password }),
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+    if (!response.ok) {
+      throw new Error("Signup Failed");
+    }
+
+    let body = await response.json();
+    setUser(true);
+
+    return body;
+  }
+
   const signout = async () => {
     let response = await fetch("/api/auth/logout", {
       method: "POST",
@@ -69,6 +87,7 @@ const AuthProvider = ({ children }) => {
     <Provider
       value={{
         authenticate,
+        signup,
         signout,
         isAuthenticated: user ? true : false,
         user,
