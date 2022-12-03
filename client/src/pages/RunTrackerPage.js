@@ -1,10 +1,26 @@
 import React, {useRef} from 'react';
 import { useState } from 'react';
+import {useEffect} from 'react';
+import RunItem from "../components/RunItem";
+
 
 function RunTrackerPage(props) {
-
-	const [run, setRun] = useState([]);
+	
+  
+  const [run, setRun] = useState([]);
 	const [totalRun, setTotalRun] = useState(0)
+
+	useEffect(() => {
+		let temp = 0;
+		for(let i = 0; i < run.length; i++) {
+			temp += parseInt(run[i].Miles);
+		}
+
+		setTotalRun(temp);
+	}, [run]);
+
+
+
 
   const desc = useRef(null);
   const mileage = useRef(null);
@@ -33,11 +49,19 @@ function RunTrackerPage(props) {
 
 
 
+
+  const removeRun = i => {
+    let temp = run.filter((v, index) => index != i);
+    setRun(temp);
+  }
+
+
   return (
     <>
       <header>
       <h1>Track Runs</h1>
-      <div className="total-Miles">{"200"}</div>
+      <div className="total-Miles">Total Mileage: {totalRun} Miles</div>
+      <br></br>
     </header>
       <div className="col text-center">
       <form className="run-form" onSubmit={AddRun}>
@@ -50,26 +74,30 @@ function RunTrackerPage(props) {
         <input type="submit" value="Add Run" />
       </div>
     </form>
+    <br></br>
 
-    <ul>
-        {run.map((data) => {
-          return <ul>
-            <li key={data.Desc}>{data.Desc}</li>
-            <li key={data.Miles}>{data.Miles}</li>
-            <li key={data.startTime}>{data.startTime}</li>
 
-            
-            
-            
-            
-            
-            </ul>;
-        })}
-</ul>
+      
+    <div className="run-list">
+      {
+        run.map((value, index) => (
+          <RunItem 
+            key={index} 
+            run={value} 
+            index={index} 
+            removeRun={removeRun}
+
+          />
+        ))
+      }
+    </div>
+
+
+
       </div>
 
     </>
-  );
+  )
 }
 
 export default RunTrackerPage;
