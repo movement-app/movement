@@ -51,7 +51,7 @@ function RunTrackerPage(props) {
 
 
   const removeRun = i => {
-    let temp = run.filter((v, index) => index != i);
+    let temp = run.filter((v, index) => index !== i);
     setRun(temp);
   }
 
