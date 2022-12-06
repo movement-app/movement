@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom";
-import PostsListPage from "./pages/PostsListPage";
+// import PostsListPage from "./pages/PostsListPage";
 import PostFormPage from "./pages/PostFormPage";
 import ShowPostPage from "./pages/ShowPostPage";
 import AboutUsPage from "./pages/AboutUsPage";
@@ -22,16 +22,6 @@ function Navigation(props) {
           movement
         </Link>
         <ul className="navbar-nav me-auto">
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/posts/new">
-              Login
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/homepage">
-              Homepage
-            </NavLink>
-          </li>
           <li className="nav-item">
             <NavLink className="nav-link" to="/RunTrackerPage">
               My Runs
@@ -76,7 +66,6 @@ function App() {
                 }
               />
               <Route path="/posts/:id" element={<ShowPostPage />} />
-              <Route path="/homepage" element={<HomePage />} />
               <Route path="/about-us" element={<AboutUsPage />} />
               <Route path="/RunTrackerPage" element={
                   <PrivateRouteRequiresAuth>
@@ -84,7 +73,7 @@ function App() {
                   </PrivateRouteRequiresAuth>
                 } 
               />
-              <Route path="/" element={<PostsListPage />} />
+              <Route path="/" element={<HomePage />} />
               <Route path="/sign-up" element={<SignUpPage />} />
 
             </Routes>
