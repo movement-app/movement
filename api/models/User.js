@@ -55,6 +55,8 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = (models) => {
     // Each user in the User table has many activity logs in the ActivityLog table.
     User.hasMany(models.ActivityLog, {
+      as: 'logs',
+      foreignKey: 'UserId',
       onDelete: 'CASCADE'
     })
 

@@ -24,7 +24,7 @@ router.get("/", (req, res) => {
 router.post("/", passport.isAuthenticated(), (req, res) => {
   let { content } = req.body;
 
-  MicroPost.create({ content })
+  MicroPost.create({ contentInt })
     .then((newPost) => {
       res.status(201).json(newPost);
     })
