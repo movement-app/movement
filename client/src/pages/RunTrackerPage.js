@@ -2,13 +2,20 @@ import React, {useRef} from 'react';
 import { useState } from 'react';
 import {useEffect} from 'react';
 import RunItem from "../components/RunItem";
+import { useAuth } from "../context/AuthContext";
+import ErrorAlert from "../components/ErrorAlert";
+import { Navigate } from "react-router-dom";
 
 
 function RunTrackerPage(props) {
 	
-  
+  const auth = useAuth();
   const [run, setRun] = useState([]);
-	const [totalRun, setTotalRun] = useState(0)
+	const [totalRun, setTotalRun] = useState(0);
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState({ description: "", distance: "", startTime: "", endTime: "", date: ""});
 
 	useEffect(() => {
 		let temp = 0;
@@ -19,8 +26,12 @@ function RunTrackerPage(props) {
 		setTotalRun(temp);
 	}, [run]);
 
-
-
+  const fieldChanged = (name) => {
+    return (event) => {
+      let { value } = event.target;
+      setData((prevData) => ({ ...prevData, [name]: value }));
+    };
+  };
 
   const desc = useRef(null);
   const mileage = useRef(null);
@@ -29,25 +40,71 @@ function RunTrackerPage(props) {
   const date = useRef(null);
 
 
-  const AddRun= e => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      let response = await fetch("/api/logs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          description: data.description,
+          distance: data.distance,
+          start_time: data.startTime,
+          end_time: data.endTime,
+          date: data.date,
+        }),
+      });
 
-    setRun([...run, {
-      "Desc": desc.current.value,
-      "Miles": mileage.current.value,
-      "startTime": startTime.current.value,
-      "endTime": endTime.current.value,
-      "Date": date.current.value,
-
-
-    }]);
-
-    desc.current.value = "";
-    mileage.current.value = null;
-    date.current.value = null;
+      if (response.ok) {
+        setSuccess(true);
+      } else {
+        setError(true);
+      }
+    } catch (error) {
+      console.error("Server error while creating a new micro post", error);
+      setError(true);
+    }
   }
 
 
+  // const addRun= e => {
+  //   // e.preventDefault();
+
+  //   setRun([...run, {
+  //     "Desc": desc.current.value,
+  //     "Miles": mileage.current.value,
+  //     "startTime": startTime.current.value,
+  //     "endTime": endTime.current.value,
+  //     "Date": date.current.value,
+  //   }]);
+
+  //   desc.current.value = "";
+  //   mileage.current.value = null;
+  //   date.current.value = null;
+  // }
+
+  useEffect(() => {
+    async function getData() {
+      setLoading(true);
+      try {
+        let response = await fetch("/api/logs");
+        let allRuns = await response.json();
+        setRun(allRuns);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching all micro_posts", error);
+        setError(true);
+      }
+    }
+
+    getData();
+
+    return () => {
+      // clean up function
+    };
+  }, []);
 
 
   const removeRun = i => {
@@ -55,6 +112,7 @@ function RunTrackerPage(props) {
     setRun(temp);
   }
 
+  if (success) return <Navigate to="/" />;
 
   return (
     <>
@@ -63,14 +121,15 @@ function RunTrackerPage(props) {
       <div className="total-Miles">Total Mileage: {totalRun} Miles</div>
       <br></br>
     </header>
+      {error && <ErrorAlert details={"Failed to save the content"} />}
       <div className="col text-center">
-      <form className="run-form" onSubmit={AddRun}>
+      <form className="run-form" onSubmit={handleSubmit}>
       <div className="form-inner">
-        <input type="text" name="desc" id="desc" placeholder="Run Description..." ref={desc} /> 
-        <input type="number" name="mileage" id="mileage" placeholder="Miles..." ref={mileage}/>
-        <input type="time" name="startTime" id="startTime" ref={startTime} />
-        <input type="time" name="endTime" id="endTime" ref={endTime} />
-        <input type="date" name="date" id="date" ref={date} />
+        <input type="text" name="desc" id="desc" placeholder="Run Description..." ref={desc} value={data.description} onChange={fieldChanged("description")}/> 
+        <input type="number" name="mileage" id="mileage" placeholder="Miles..." ref={mileage} value={data.distance} onChange={fieldChanged("distance")}/>
+        <input type="time" name="startTime" id="startTime" ref={startTime} value={data.startTime} onChange={fieldChanged("startTime")}/>
+        <input type="time" name="endTime" id="endTime" ref={endTime} value={data.endTime} onChange={fieldChanged("endTime")}/>
+        <input type="date" name="date" id="date" ref={date} value={data.date} onChange={fieldChanged("date")}/>
         <input type="submit" value="Add Run" />
       </div>
     </form>

@@ -39,14 +39,6 @@ module.exports = (sequelize, DataTypes) => {
       end_time: {
         type: DataTypes.TIME,
         allowNull: false,
-        validate: {
-          // Validates whether the end time is later than the start time
-          startTimeAfterEndTime(time) {
-            if (this.start_time.isAfter(time)) {
-              throw new Error('Start time must be before the end time.');
-            }
-          }
-        }
       },
       date: {
         type: DataTypes.DATEONLY,
@@ -54,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           isDate: true,
         }
-      }
+      },
     },
     {
       sequelize,
@@ -66,9 +58,7 @@ module.exports = (sequelize, DataTypes) => {
     // Each record in the AcitivityLog table belongs to a registered user in the User table.
     // A record cannot be created without a specified user.
     ActivityLog.belongsTo(models.User, {
-        foreignKey: {
-            allowNull: false
-        }, 
+        //foreignKey: 'userId',
         onDelete: 'CASCADE',
     })
   };

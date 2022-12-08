@@ -7,24 +7,32 @@ const { ActivityLog } = db;
 router.get("/",(req, res) => {
     ActivityLog.findAll({
         where: {
-            userId: req.user.id
+            UserId: req.user.id,
         }
     }).then((allLogs) => res.json(allLogs));
 }) 
 
 router.post("/", passport.isAuthenticated(), (req, res) => {
     console.log("POST body: ", req.body);
+    distanceFloat = parseFloat(req.body.distance);
+    //startTime = new Date(req.body.startTime);
+    //endTime = new Date(req.body.endTime);
+    dateObj = new Date(req.body.date);
+    user_id = parseInt(req.body.userId);
+
     ActivityLog.create({
         description: req.body.description,
-        distance: req.body.distance,
+        distance: distanceFloat,
         start_time: req.body.start_time,
         end_time: req.body.end_time,
-        date: req.body.date
+        date: dateObj,
+        UserId: req.user.id,
     })
       .then((newLog) => {
         res.status(201).json(newLog);
       })
       .catch((err) => {
+        console.log(err);
         res.status(400).json(err);
       });
 })
