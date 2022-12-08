@@ -14,6 +14,7 @@ function RunTrackerPage(props) {
 	const [totalRun, setTotalRun] = useState(0);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState({ description: "", distance: "", startTime: "", endTime: "", date: ""});
 
 	useEffect(() => {
@@ -39,7 +40,36 @@ function RunTrackerPage(props) {
   const date = useRef(null);
 
 
-  // const AddRun= e => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      let response = await fetch("/api/logs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          description: data.description,
+          distance: data.distance,
+          start_time: data.startTime,
+          end_time: data.endTime,
+          date: data.date,
+        }),
+      });
+
+      if (response.ok) {
+        setSuccess(true);
+      } else {
+        setError(true);
+      }
+    } catch (error) {
+      console.error("Server error while creating a new micro post", error);
+      setError(true);
+    }
+  }
+
+
+  // const addRun= e => {
   //   // e.preventDefault();
 
   //   setRun([...run, {
@@ -55,40 +85,32 @@ function RunTrackerPage(props) {
   //   date.current.value = null;
   // }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try{
-      let response = await fetch("/api/logs", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          description: data.description,
-          distance: data.distance,
-          startTime: data.startTime,
-          endTime: data.endTime,
-          date: data.date,
-          userId: auth.user.id.toString(),
-        })
-      });
-      if (response.ok) {
-        setSuccess(true);
-      } else {
+  useEffect(() => {
+    async function getData() {
+      setLoading(true);
+      try {
+        let response = await fetch("/api/logs");
+        let allRuns = await response.json();
+        setRun(allRuns);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching all micro_posts", error);
         setError(true);
       }
-    } catch (error) {
-      console.error("Server error while creating a new micro post", error);
-      setError(true);
     }
+
+    getData();
+
+    return () => {
+      // clean up function
+    };
+  }, []);
+
+
+  const removeRun = i => {
+    let temp = run.filter((v, index) => index != i);
+    setRun(temp);
   }
-
-
-  // const removeRun = i => {
-  //   let temp = run.filter((v, index) => index != i);
-  //   setRun(temp);
-  // }
 
   if (success) return <Navigate to="/" />;
 
@@ -122,7 +144,7 @@ function RunTrackerPage(props) {
             key={index} 
             run={value} 
             index={index} 
-            // removeRun={removeRun}
+            removeRun={removeRun}
 
           />
         ))

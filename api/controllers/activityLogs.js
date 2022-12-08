@@ -7,7 +7,7 @@ const { ActivityLog } = db;
 router.get("/",(req, res) => {
     ActivityLog.findAll({
         where: {
-            user_id: req.user.id
+            UserId: req.user.id,
         }
     }).then((allLogs) => res.json(allLogs));
 }) 
@@ -23,9 +23,10 @@ router.post("/", passport.isAuthenticated(), (req, res) => {
     ActivityLog.create({
         description: req.body.description,
         distance: distanceFloat,
-        start_time: req.body.startTime,
-        end_time: req.body.endTime,
+        start_time: req.body.start_time,
+        end_time: req.body.end_time,
         date: dateObj,
+        UserId: req.user.id,
     })
       .then((newLog) => {
         res.status(201).json(newLog);

@@ -58,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
     // Each record in the AcitivityLog table belongs to a registered user in the User table.
     // A record cannot be created without a specified user.
     ActivityLog.belongsTo(models.User, {
-        foreignKey: 'ActivityLogId',
+        //foreignKey: 'userId',
         onDelete: 'CASCADE',
     })
   };
