@@ -57,6 +57,8 @@ function RunTrackerPage(props) {
       console.error("Server error while creating a new activity log", error);
       setError(true);
     }
+
+    setData({ description: "", distance: "", startTime: "", endTime: "", date: ""})
   }
 
   useEffect(() => {
@@ -102,7 +104,7 @@ function RunTrackerPage(props) {
     <>
       <header>
         <h1>Track Runs</h1>
-        <div className="total-Miles">Total Mileage: {totalRun} Miles</div>
+        <div className="total-Miles">Total Distance: {totalRun} Miles</div>
         <br></br>
       </header>
       {error && <ErrorAlert details={"Failed to save the content"} />}
