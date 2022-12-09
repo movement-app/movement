@@ -4,8 +4,8 @@ function Dashboard(props) {
     return (
         <>
             <div className="mb-4 d-flex align-items-start specialBtns">
-                <button type="button" class="btn btn-dark w-25 me-3" data-bs-toggle="modal" data-bs-target="#createNew" data-bs-whatever="@createnew">+ Create New Challenge</button>
-                <button type="button" class="btn btn-dark w-25" data-bs-toggle="modal" data-bs-target="#joinChallenge" data-bs-whatever="@joinchallenge">+ Join Challenge</button>
+                <button type="button" className="btn btn-dark w-25 me-3" data-bs-toggle="modal" data-bs-target="#createNew" data-bs-whatever="@createnew">+ Create New Challenge</button>
+                <button type="button" className="btn btn-dark w-25" data-bs-toggle="modal" data-bs-target="#joinChallenge" data-bs-whatever="@joinchallenge">+ Join Challenge</button>
             </div>
             <div className="d-flex align-items-start">
                 <div className="nav flex-column nav-pills me-3 col-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -15,7 +15,7 @@ function Dashboard(props) {
                 <div className="tab-content col-10 ms-4" id="v-pills-tabContent">
                     <div className="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                         <h4 className="dashboardTitles">Active Challenges</h4>
-                        <table class="table table-hover table-striped">
+                        <table className="table table-hover table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col">Challenge ID</th>
@@ -42,7 +42,7 @@ function Dashboard(props) {
                     </div>
                     <div className="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                         <h4 className="dashboardTitles">Past Challenges</h4>
-                        <table class="table table-hover table-striped">
+                        <table className="table table-hover table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col">Challenge ID</th>
@@ -64,27 +64,27 @@ function Dashboard(props) {
                 </div>
             </div>
 
-            <div class="modal fade" id="createNew" tabindex="-1" aria-labelledby="createNewModal" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="createNew">Create New Challenge</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div className="modal fade" id="createNew" tabIndex="-1" aria-labelledby="createNewModal" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="createNew">Create New Challenge</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             <form>
-                                <div class="row mb-3">
-                                    <label for="challengeID" class="col-sm-3 col-form-label text-start">Challenge ID</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="challengeID" placeholder="2433"></input>
+                                <div className="row mb-3">
+                                    <label htmlFor="challengeID" className="col-sm-3 col-form-label text-start">Challenge ID</label>
+                                    <div className="col-sm-9">
+                                        <input type="text" className="form-control" id="challengeID" placeholder="2433"></input>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <label for="distance" class="col-sm-3 col-form-label text-start">Distance</label>
-                                    <div class="col-sm-9">
+                                <div className="row mb-3">
+                                    <label htmlFor="distance" className="col-sm-3 col-form-label text-start">Distance</label>
+                                    <div className="col-sm-9">
                                         {/* Note: if you prefer user-input, use the commented line below */}
-                                        {/* <input type="text" class="form-control" id="distance" placeholder="12k"></input> */}
-                                        <select class="form-select" id="distance">
+                                        {/* <input type="text" className="form-control" id="distance" placeholder="12k"></input> */}
+                                        <select className="form-select" id="distance">
                                             <option value="1">1 mile</option>
                                             <option value="5">5 miles</option>
                                             <option value="10">10 miles</option>
@@ -92,39 +92,39 @@ function Dashboard(props) {
                                     </div>
 
                                 </div>
-                                <div class="row mb-3">
-                                    <label for="deadline" class="col-sm-3 col-form-label text-start">Deadline</label>
-                                    <div class="col-sm-9">
-                                        <input type="date" class="form-control" id="deadline"></input>
+                                <div className="row mb-3">
+                                    <label htmlFor="deadline" className="col-sm-3 col-form-label text-start">Deadline</label>
+                                    <div className="col-sm-9">
+                                        <input type="date" className="form-control" id="deadline"></input>
                                     </div>
                                 </div>
                             </form>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">Send Challenge</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-primary">Send Challenge</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="joinChallenge" tabindex="-1" aria-labelledby="joinChallengeModal" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="joinChallenge">Join Challenge</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div className="modal fade" id="joinChallenge" tabIndex="-1" aria-labelledby="joinChallengeModal" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="joinChallenge">Join Challenge</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             <form>
-                                <div class="row mb-3">
-                                    <label for="challengeID" class="col-sm-3 col-form-label text-start">Challenge ID</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="challengeID" placeholder="2433"></input>
+                                <div className="row mb-3">
+                                    <label htmlFor="challengeID" className="col-sm-3 col-form-label text-start">Challenge ID</label>
+                                    <div className="col-sm-9">
+                                        <input type="text" className="form-control" id="challengeID" placeholder="2433"></input>
                                     </div>
                                 </div>
                             </form>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">Join Challenge</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-primary">Join Challenge</button>
                         </div>
                     </div>
                 </div>
