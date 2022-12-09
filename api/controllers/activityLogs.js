@@ -4,7 +4,7 @@ const router = express.Router();
 const db = require("../models");
 const { ActivityLog } = db;
 
-router.get("/",(req, res) => {
+router.get("/", passport.isAuthenticated(), (req, res) => {
     ActivityLog.findAll({
         where: {
             UserId: req.user.id,
@@ -35,6 +35,18 @@ router.post("/", passport.isAuthenticated(), (req, res) => {
         console.log(err);
         res.status(400).json(err);
       });
+})
+
+router.delete("/:id", passport.isAuthenticated(), (req, res) => {
+  const { id } = req.params;
+  ActivityLog.findByPk(id).then((log) => {
+    if (!log) {
+      return res.sendStatus(404);
+    }
+
+    log.destroy();
+    res.sendStatus(204);
+  });
 })
 
 module.exports = router;
