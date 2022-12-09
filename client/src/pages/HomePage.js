@@ -2,7 +2,7 @@ import React from "react";
 import runners from "./images/group_run_image.png";
 //import duorun from "./images/duo_run.png";
 import handshake from "./images/handshake.png";
-
+// import runfriends from "./images/runningfriends.gif"
 
 
 function HomePage(props) {
@@ -22,6 +22,8 @@ function HomePage(props) {
                         <h4>Challenge Your Friends</h4>
                         <p>Competition drives motivation. Whoever completes the fitness challenge first chooses the charity to be donated to. The loser of the challenge donates to the charity.</p>
                     </div>
+                    {/* <img className="img-fluid mainrunners" src={runfriends} alt="gif runners"></img> */}
+
                 </div>
             </div>
         </>

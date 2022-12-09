@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import runnersgraphic from "./images/rungraphic.png";
+// import runnersgraphic from "./images/rungraphic.png";
+import runfriends from "./images/runningfriends.gif"
+
 
 function SignUpPage() {
     const auth = useAuth();
@@ -53,10 +55,10 @@ function SignUpPage() {
         <>
             <div className="container">
                 <div className="row">
-                    <div className="col">
-                        <img className="img-fluid" src={runnersgraphic} alt="runners graphic"></img>
+                    <div className="col-6">
+                        <img className="h-100 img-fluid mt-5" src={runfriends} alt="runners graphic"></img>
                     </div>
-                    <div className="col">
+                    <div className="col-6">
                         <div className="loginForm">
                             <h3>Join the Movement</h3>
                             <br></br>

@@ -9,7 +9,7 @@ function RunItem({id, description, distance, index, removeRun}) {
   return (
     <div className="run-item">
       {description}{ " "} {distance}{" "}Mile Run{" "}
-      <button className="remove-item" onClick={() => removeHandle(id)}>X</button>
+      <button className="btn-close remove-item" onClick={() => removeHandle(id)}></button>
     </div>
   )
 }
