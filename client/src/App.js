@@ -26,7 +26,12 @@ function Navigation(props) {
         </Link>
         <ul className="navbar-nav me-auto">
           <li className="nav-item">
-            <NavLink className="nav-link" to="/RunTrackerPage">
+            <NavLink className="nav-link" to="/dashboard">
+              Dashboard
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/run-tracker">
               My Runs
             </NavLink>
           </li>
@@ -38,11 +43,6 @@ function Navigation(props) {
           <li className="nav-item">
             <NavLink className="nav-link" to="/sign-up">
               Join
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/dashboard">
-              Dashboard
             </NavLink>
           </li>
         </ul>
@@ -75,7 +75,7 @@ function App() {
               />
               <Route path="/posts/:id" element={<ShowPostPage />} />
               <Route path="/about-us" element={<AboutUsPage />} />
-              <Route path="/RunTrackerPage" element={
+              <Route path="/run-tracker" element={
                   <PrivateRouteRequiresAuth>
                     <RunTrackerPage />
                   </PrivateRouteRequiresAuth>
