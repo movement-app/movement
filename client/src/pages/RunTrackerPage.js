@@ -3,11 +3,10 @@ import { useState } from 'react';
 import {useEffect} from 'react';
 import RunItem from "../components/RunItem";
 import ErrorAlert from "../components/ErrorAlert";
-import { Navigate } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 function RunTrackerPage(props) {
-	
+
   const [run, setRun] = useState([]);
 	const [totalRun, setTotalRun] = useState(0);
   const [error, setError] = useState(false);
@@ -50,6 +49,7 @@ function RunTrackerPage(props) {
 
       if (response.ok) {
         setSuccess(true);
+        getData();
       } else {
         setError(true);
       }
@@ -59,26 +59,26 @@ function RunTrackerPage(props) {
     }
   }
 
-  useEffect((e) => {
-    async function getData() {
-      setLoading(true);
-      try {
-        let response = await fetch("/api/logs");
-        let allRuns = await response.json();
-        setRun(allRuns);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching all activity logs", error);
-        setError(true);
-      }
-    }
-
+  useEffect(() => {
     getData();
-
     return () => {
       // clean up function
     };
   }, []);
+
+  const getData = async (event) => {
+    setError(false);
+    setLoading(true);
+    try {
+      let response = await fetch("/api/logs");
+      let allRuns = await response.json();
+      setRun(allRuns);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching all activity logs", error);
+      setError(true);
+    }
+  }
 
   const removeRun = async (id) => {
     try {
@@ -93,40 +93,38 @@ function RunTrackerPage(props) {
       console.error("Server error while deleting the activity log", error);
       setError(true);
     }
+    getData();
   }
 
-  if (success) return <Navigate to="/" />;
   if (loading) return <LoadingSpinner />;
 
   return (
     <>
       <header>
-      <h1>Track Runs</h1>
-      <div className="total-Miles">Total Mileage: {totalRun} Miles</div>
-      <br></br>
-    </header>
+        <h1>Track Runs</h1>
+        <div className="total-Miles">Total Mileage: {totalRun} Miles</div>
+        <br></br>
+      </header>
       {error && <ErrorAlert details={"Failed to save the content"} />}
       <div className="col text-center">
-      <form className="run-form" onSubmit={handleSubmit}>
-      <div className="form-inner">
-        <input type="text" name="desc" id="desc" placeholder="Run Description..." value={data.description} onChange={fieldChanged("description")}/> 
-        <input type="number" name="mileage" id="mileage" placeholder="Miles..." value={data.distance} onChange={fieldChanged("distance")}/>
-        <input type="time" name="startTime" id="startTime" value={data.startTime} onChange={fieldChanged("startTime")}/>
-        <input type="time" name="endTime" id="endTime" value={data.endTime} onChange={fieldChanged("endTime")}/>
-        <input type="date" name="date" id="date" value={data.date} onChange={fieldChanged("date")}/>
-        <input type="submit" value="Add Run" />
+        <form className="run-form" onSubmit={handleSubmit}>
+          <div className="form-inner">
+            <input type="text" name="desc" id="desc" placeholder="Run Description..." value={data.description} onChange={fieldChanged("description")}/> 
+            <input type="number" name="mileage" id="mileage" placeholder="Miles..." value={data.distance} onChange={fieldChanged("distance")}/>
+            <input type="time" name="startTime" id="startTime" value={data.startTime} onChange={fieldChanged("startTime")}/>
+            <input type="time" name="endTime" id="endTime" value={data.endTime} onChange={fieldChanged("endTime")}/>
+            <input type="date" name="date" id="date" value={data.date} onChange={fieldChanged("date")}/>
+            <input type="submit" value="Add Run" />
+          </div>
+        </form>
       </div>
-    </form>
     <br></br>
 
-    <div className="run-list">
-      {run.map((entryData, index) => (
-          <RunItem {...entryData} removeRun={removeRun} key={entryData.id} />
+      <div className="run-list">
+        {run.map((entryData, index) => (
+            <RunItem {...entryData} removeRun={removeRun} key={entryData.id} />
         ))}
-    </div>
-
-    </div>
-
+      </div>
     </>
   )
 }
