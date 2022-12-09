@@ -10,9 +10,12 @@ import HomePage from "./pages/HomePage"
 import SignUpPage from "./pages/SignUpPage"
 import { AuthProvider } from "./context/AuthContext";
 import AuthButton from "./components/AuthButton";
-
 import "./App.css";
 import PrivateRouteRequiresAuth from "./components/PrivateRouteRequiresAuth";
+import Dashboard from "./pages/Dashboard";
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'jquery/dist/jquery.min.js'
+import 'bootstrap/dist/js/bootstrap.min.js'
 
 function Navigation(props) {
   return (
@@ -35,6 +38,11 @@ function Navigation(props) {
           <li className="nav-item">
             <NavLink className="nav-link" to="/sign-up">
               Join
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/dashboard">
+              Dashboard
             </NavLink>
           </li>
         </ul>
@@ -70,6 +78,12 @@ function App() {
               <Route path="/RunTrackerPage" element={
                   <PrivateRouteRequiresAuth>
                     <RunTrackerPage />
+                  </PrivateRouteRequiresAuth>
+                } 
+              />
+              <Route path="/dashboard" element={
+                  <PrivateRouteRequiresAuth>
+                    <Dashboard/>
                   </PrivateRouteRequiresAuth>
                 } 
               />
