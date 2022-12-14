@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom";
 import PostFormPage from "./pages/PostFormPage";
 import ShowPostPage from "./pages/ShowPostPage";
 import AboutUsPage from "./pages/AboutUsPage";
+import AddCharityPage from "./pages/AddCharityPage";
 import RunTrackerPage from "./pages/RunTrackerPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage"
@@ -75,6 +76,7 @@ function App() {
               />
               <Route path="/posts/:id" element={<ShowPostPage />} />
               <Route path="/about-us" element={<AboutUsPage />} />
+              <Route path="/add-charities" element={<AddCharityPage />} />
               <Route path="/run-tracker" element={
                   <PrivateRouteRequiresAuth>
                     <RunTrackerPage />

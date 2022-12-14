@@ -26,10 +26,10 @@ module.exports = (sequelize, DataTypes) => {
   Challenge.init(
     {
       match_id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDv4,
+        type: DataTypes.INTEGER,
         unique: true,
         allowNull: false,
+        primaryKey: true,
       },
       title: {
         type: DataTypes.STRING,
@@ -70,9 +70,8 @@ module.exports = (sequelize, DataTypes) => {
     })
 
     // Each record in the Challenge table is linked with one charity from the Charity table.
-    Challenge.hasOne(models.Charity, {
-        through: 'challengecharity',
-        onDelete: 'CASCADE'
+    Challenge.belongsTo(models.Charity, {
+        onDelete: 'CASCADE',
     })
   };
 
