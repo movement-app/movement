@@ -15,6 +15,18 @@ router.get("/", passport.isAuthenticated(), (req, res) => {
     }).then((allChallenges) => res.json(allChallenges));
 })
 
+router.get("/participants/:match_id", passport.isAuthenticated(), (req, res) => {
+    const { match_id } = req.params;
+    Challenge.findAll({
+      where: {match_id: match_id},
+      include: [{
+        model: User, 
+        through: { where: {ChallengeMatchId: match_id}},
+        attributes: ['firstName'] ,
+      }]
+  }).then((allIds) => res.json(allIds));
+})
+
 router.post("/create", passport.isAuthenticated(), (req, res) => {
     console.log("POST body: ", req.body);
     distanceFloat = parseFloat(req.body.distance);
