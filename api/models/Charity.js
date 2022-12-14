@@ -40,9 +40,8 @@ module.exports = (sequelize, DataTypes) => {
 
   Charity.associate = (models) => {
     // Each record in the Charity model belongs to many challenges in the Challenge model.
-    Charity.belongsToMany(models.Challenge, {
-        through: 'challengecharity',
-        onDelete: 'CASCADE',
+    Charity.hasMany(models.Challenge, {
+      onDelete: 'CASCADE',
     })
   };
 

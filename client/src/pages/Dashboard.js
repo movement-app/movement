@@ -1,6 +1,101 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorAlert from "../components/ErrorAlert";
 
 function Dashboard(props) {
+
+    const [error, setError] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState({ title: "", distance: "", deadline: "", donation: "", charity: "1" });
+    const [joinData, setJoinData] = useState({ match_id: ""})
+    const [challenge, setChallenge] = useState([]); 
+
+    const fieldChanged = (name) => {
+        return (event) => {
+          let { value } = event.target;
+          setData((prevData) => ({ ...prevData, [name]: value }));
+        };
+    };
+
+    const fieldUpdated = (name) => {
+        return (event) => {
+          let { value } = event.target;
+          setJoinData((prevData) => ({ ...prevData, [name]: value }));
+        };
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            let response = await fetch("/api/challenges/create", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                title: data.title,
+                distance: data.distance,
+                deadline: data.deadline,
+                donation: data.donation,
+                charity: data.charity,
+              }),
+            });
+      
+            if (response.ok) {
+              setSuccess(true);
+              getData();
+            } else {
+              setError(true);
+            }
+          } catch (error) {
+            console.error("Server error while creating a new activity log", error);
+            setError(true);
+          }
+    }
+
+    const handleUpdate = async (event) => {
+        try {
+            const response = await fetch(`/api/challenges/${joinData.match_id}`, { method: "PUT" });
+      
+            if (response.ok) {
+              setSuccess(true);
+            } else {
+              setError(true);
+            }
+          } catch (error) {
+            console.error("Server error while updating the challenge", error);
+            setError(true);
+          }
+          getData();
+    }
+
+
+    const getData = async (event) => {
+        setError(false);
+        setLoading(true);
+        try {
+          let response = await fetch("/api/challenges");
+          let allChallenges = await response.json();
+          console.log(allChallenges);
+          setChallenge(allChallenges);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error fetching all active challenges", error);
+          setError(true);
+        }
+        console.log(challenge);
+    }
+
+    useEffect(() => {
+        getData();
+        return () => {
+          // clean up function
+        };
+      }, []);
+
+    //if (loading) return <LoadingSpinner />;
+
     return (
         <>
             <div className="mb-4 d-flex align-items-start specialBtns">
@@ -14,6 +109,7 @@ function Dashboard(props) {
                 </div>
                 <div className="tab-content col-10 ms-4" id="v-pills-tabContent">
                     <div className="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        {error && <ErrorAlert details={"Failed to save the content"} />}    
                         <h4 className="dashboardTitles">Active Challenges</h4>
                         <table className="table table-hover table-striped">
                             <thead>
@@ -74,34 +170,52 @@ function Dashboard(props) {
                         <div className="modal-body">
                             <form>
                                 <div className="row mb-3">
-                                    <label htmlFor="challengeID" className="col-sm-3 col-form-label text-start">Challenge ID</label>
+                                    <label htmlFor="title" className="col-sm-3 col-form-label text-start">Title</label>
                                     <div className="col-sm-9">
-                                        <input type="text" className="form-control" id="challengeID" placeholder="2433"></input>
+                                        <input type="text" className="form-control" id="title" placeholder="Turkey Trot" onChange={fieldChanged("title")}></input>
                                     </div>
                                 </div>
                                 <div className="row mb-3">
                                     <label htmlFor="distance" className="col-sm-3 col-form-label text-start">Distance</label>
                                     <div className="col-sm-9">
                                         {/* Note: if you prefer user-input, use the commented line below */}
-                                        {/* <input type="text" className="form-control" id="distance" placeholder="12k"></input> */}
-                                        <select className="form-select" id="distance">
+                                        <input type="number" className="form-control" id="distance" placeholder="12k" onChange={fieldChanged("distance")}></input>
+                                        {/* <select className="form-select" id="distance">
                                             <option value="1">1 mile</option>
                                             <option value="5">5 miles</option>
                                             <option value="10">10 miles</option>
-                                        </select>
+                                        </select> */}
                                     </div>
-
                                 </div>
                                 <div className="row mb-3">
                                     <label htmlFor="deadline" className="col-sm-3 col-form-label text-start">Deadline</label>
                                     <div className="col-sm-9">
-                                        <input type="date" className="form-control" id="deadline"></input>
+                                        <input type="datetime-local" className="form-control" id="deadline" onChange={fieldChanged("deadline")}></input>
+                                    </div>
+                                </div>
+                                <div className="row mb-3">
+                                    <label htmlFor="donation" className="col-sm-3 col-form-label text-start">Donation Amount</label>
+                                    <div className="col-sm-9">
+                                        <input type="number" className="form-control" id="donation" placeholder="$5" onChange={fieldChanged("donation")}></input>
+                                    </div>
+                                </div>
+                                <div className="row mb-3">
+                                    <label htmlFor="charity" className="col-sm-3 col-form-label text-start">Charity</label>
+                                    <div className="col-sm-9">
+                                        {/* Note: if you prefer user-input, use the commented line below */}
+                                        {/* <input type="number" className="form-control" id="distance" placeholder="12k"></input> */}
+                                        <select className="form-select" id="charity" onChange={fieldChanged("charity")}>
+                                            <option value="1">Red Cross</option>
+                                            <option value="2">Feeding America</option>
+                                            <option value="3">Salvation Army</option>
+                                            <option value="4">St. Jude Children's Research Hospital</option>
+                                        </select>
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-primary">Send Challenge</button>
+                            <button type="button" className="btn btn-primary" onClick={handleSubmit}>Create Challenge</button>
                         </div>
                     </div>
                 </div>
@@ -116,21 +230,20 @@ function Dashboard(props) {
                         <div className="modal-body">
                             <form>
                                 <div className="row mb-3">
-                                    <label htmlFor="challengeID" className="col-sm-3 col-form-label text-start">Challenge ID</label>
+                                    <label htmlFor="title" className="col-sm-3 col-form-label text-start">Challenge ID</label>
                                     <div className="col-sm-9">
-                                        <input type="text" className="form-control" id="challengeID" placeholder="2433"></input>
+                                        <input type="text" className="form-control" id="title" placeholder="2433" onChange={fieldUpdated("match_id")}></input>
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-primary">Join Challenge</button>
+                            <button type="button" className="btn btn-primary" onClick={handleUpdate}>Join Challenge</button>
                         </div>
                     </div>
                 </div>
             </div>
         </>
-
     )
 }
 export default Dashboard;
