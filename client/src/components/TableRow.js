@@ -44,7 +44,7 @@ function TableRow(props) {
             <th scope="row">{props.elem.match_id}</th>
             <td>{participants[0]}, {participants[1]}</td>
             <td>{props.elem.distance + " miles"}</td>
-            <td>{new Date(props.elem.deadline).getMonth()}/{new Date(props.elem.deadline).getDate()}/{new Date(props.elem.deadline).getYear()-100}</td>
+            <td>{new Date(props.elem.deadline).getMonth()+1}/{new Date(props.elem.deadline).getDate()}/{new Date(props.elem.deadline).getYear()-100}</td>
         </tr>
     )
 }
